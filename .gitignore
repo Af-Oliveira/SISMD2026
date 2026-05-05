@@ -1,0 +1,32 @@
+# Maven build output
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+*.classpath
+*.project
+.settings/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Benchmark & GC output
+results/*.csv
+gc-tuning/logs/
+
+# Processed images (keep inputs, ignore outputs)
+output/
+
+# Python venv used by report/charts/generate_charts.py
+.venv/
+__pycache__/
+*.pyc
+
+# documents
+SPRINT_PLAN.md
+EXECUTION_PLAN.md
+
+
