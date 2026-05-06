@@ -18,11 +18,10 @@ four garbage collectors and analysed in a single executive report.
 1. [Overview](#1-overview)
 2. [Prerequisites](#2-prerequisites)
 3. [Build](#3-build)
-4. [Run](#4-run)
-5. [Benchmarks](#5-benchmarks)
-6. [GC Tuning](#6-gc-tuning)
-7. [Project Structure](#7-project-structure)
-8. [Authors](#8-authors)
+4. [Benchmarks](#4-benchmarks)
+5. [GC Tuning](#5-gc-tuning)
+6. [Project Structure](#6-project-structure)
+7. [Authors](#7-authors)
 
 ---
 
@@ -49,9 +48,6 @@ Five strategies implement the `ImageProcessor` interface and produce
 | Fork/Join | `ForkJoinHistogramEqualizer` | `ForkJoinPool.commonPool()` with `RecursiveTask<int[]>` (histogram) and `RecursiveAction` (pixel rewrite), recursively split until a configurable row-threshold. |
 | CompletableFuture | `CompletableFutureHistogramEqualizer` | Async pipeline: `supplyAsync` → pairwise `thenCombine` merges → `thenApply` (cumulative) → `thenCompose` → `runAsync` slice writes → `allOf`. |
 
-Every concurrent implementation parallelizes **stages 1 and 3**; the
-256-bin prefix sum in stage 2 is kept sequential because recursion
-overhead would dominate the 256 additions.
 
 ---
 
@@ -63,11 +59,6 @@ overhead would dominate the 256 additions.
 | Maven | **3.8+** | Build, test, exec |
 | Python | 3.9+ *(optional)* | Chart regeneration (`report/charts/generate_charts.py`) |
 
-Check:
-```bash
-java -version
-mvn -version
-```
 
 ---
 
@@ -93,62 +84,10 @@ The suite covers:
 - Test utilities (`TestImageFactoryTest`, `UtilsTest`).
 - Benchmark harness + GC report (`BenchmarkRunnerTest`, `GcComparisonReportTest`).
 
-### Package
 
-```bash
-mvn -q package
-```
+## 4. Benchmarks
 
-Produces `target/histogram-equalizer-1.0-SNAPSHOT.jar`.
-
----
-
-## 4. Run
-
-### 4.1 Interactive (`ApplyFilters`)
-
-Equalize a single image via the default (`Sequential`) processor:
-
-```bash
-mvn -q exec:java
-# then enter the image path when prompted, e.g.:
-#   sample.jpg
-```
-
-The result is written to `output/output.jpg`.
-
-### 4.2 Switch the active implementation
-
-`ApplyFilters` defaults to `SequentialHistogramEqualizer`. To run a
-concurrent implementation directly, invoke it via `java` (after
-`mvn compile`) — every implementation has a public no-arg constructor:
-
-```bash
-mvn -q compile
-
-# Sequential
-java -cp target/classes pt.isep.sismd.histogram.ApplyFilters
-
-# (other implementations are wired in via BenchmarkRunner — see §5)
-```
-
-### 4.3 Maven exec shortcut
-
-`pom.xml` exposes `exec.mainClass` so any class with a `main` can be
-launched from Maven:
-
-```bash
-# Run the benchmark harness via Maven
-mvn -q compile exec:java \
-    -Dexec.mainClass=pt.isep.sismd.histogram.BenchmarkRunner \
-    -Dexec.args="results/g1"
-```
-
----
-
-## 5. Benchmarks
-
-### 5.1 What `BenchmarkRunner` does
+### 4.1 What `BenchmarkRunner` does
 
 Sweeps the Cartesian product of:
 
@@ -165,7 +104,7 @@ and records:
 
 Output: `results_time.csv`, `results_memory.csv`, `results_gc.csv`.
 
-### 5.2 Run the benchmark
+### 4.2 Run the benchmark
 
 ```bash
 mvn -q compile
@@ -177,10 +116,7 @@ java -Xms2g -Xmx2g -cp target/classes pt.isep.sismd.histogram.BenchmarkRunner
 java -Xms2g -Xmx2g -cp target/classes pt.isep.sismd.histogram.BenchmarkRunner results/g1
 ```
 
-> **Memory note:** large preset allocates ~100 MB of `Color` objects
-> per iteration. Plan on at least `-Xmx2g`.
-
-### 5.3 Run with specific GC flags
+### 4.3 Run with specific GC flags
 
 The harness does **not** select a GC itself — set it at JVM launch:
 
@@ -193,7 +129,15 @@ java -XX:+UseZGC        -Xms2g -Xmx2g -cp target/classes pt.isep.sismd.histogram
 
 Add `-Xlog:gc*:file=<path>` to capture a GC log alongside the CSVs.
 
-### 5.4 Regenerate charts from the CSVs
+### 4.4 Regenerate charts from the CSVs
+
+```powershell
+# 1. Compile the Java sources.
+mvn -q compile
+
+# 2. Run all four GC sweeps + auto-aggregate the cross-GC summary.
+gc-tuning\run_all.ps1            # ~45-60 s on a 24-core machine
+```
 
 ```bash
 python -m pip install matplotlib pandas
@@ -201,11 +145,10 @@ python report/charts/generate_charts.py
 ```
 
 Charts are written to `report/charts/*.png` and embedded in
-[`report/REPORT.md`](report/REPORT.md).
 
 ---
 
-## 6. GC Tuning
+## 5. GC Tuning
 
 Helper scripts for every GC live in [`gc-tuning/`](gc-tuning/), in both
 `bash` (`.sh`) and PowerShell (`.ps1`) flavours:
@@ -234,21 +177,9 @@ Each script:
 2. Captures `-Xlog:gc*` output to `gc-tuning/logs/<gc>.log`.
 3. Writes benchmark CSVs into `results/<gc>/`.
 
-After running all four, aggregate the cross-GC comparison:
-
-```bash
-mvn -q compile exec:java \
-    -Dexec.mainClass=pt.isep.sismd.histogram.GcComparisonReport \
-    -Dexec.args="results gc-tuning/comparison.md"
-```
-
-The selected GC and full analysis are in
-[`gc-tuning/README.md`](gc-tuning/README.md) and
-[`gc-tuning/comparison.md`](gc-tuning/comparison.md).
-
 ---
 
-## 7. Project Structure
+## 6. Project Structure
 
 ```
 SISMD2026/
@@ -297,7 +228,7 @@ SISMD2026/
 
 ---
 
-## 8. Authors
+## 7. Authors
 
 - **Afonso Oliveira** — ISEP / SISMD 2025–26
 
@@ -305,8 +236,3 @@ See the project board for per-issue assignments:
 <https://github.com/users/Af-Oliveira/projects/6/views/1>.
 
 ---
-
-## License
-
-Academic project — ISEP, Master in Informatics Engineering, SISMD
-2025–26 course.

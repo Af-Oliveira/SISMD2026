@@ -7,7 +7,7 @@ import java.util.concurrent.RecursiveTask;
 
 /**
  * Histogram equalization using the Fork/Join framework
- * (Issue #6 — PDF §4 "Fork/Join Framework Solution").
+ * (Issue #6 — PDF Section 4 "Fork/Join Framework Solution").
  *
  * <p>The image rows are recursively split into halves until each leaf task
  * spans at most {@code threshold} rows, at which point the work is performed
@@ -47,7 +47,7 @@ public class ForkJoinHistogramEqualizer implements ImageProcessor {
     }
 
     /**
-     * @param threshold leaf-size threshold in rows (must be &gt; 0). Smaller
+     * @param threshold leaf-size threshold in rows (must be bigger than 0). Smaller
      *                  values create more, finer tasks; larger values reduce
      *                  scheduling overhead at the cost of parallelism.
      */

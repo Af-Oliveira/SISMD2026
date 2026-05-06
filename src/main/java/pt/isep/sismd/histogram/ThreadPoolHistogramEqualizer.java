@@ -12,7 +12,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Histogram equalization using a fixed-size {@link ExecutorService}
- * (Issue #5 — PDF §3 "Multithreaded Solution With Thread Pools").
+ * (Issue #5 — PDF Section 3 "Multithreaded Solution With Thread Pools").
  *
  * <h2>Parallelization strategy</h2>
  * <ol>
@@ -53,7 +53,7 @@ public class ThreadPoolHistogramEqualizer implements ImageProcessor {
     }
 
     /**
-     * @param poolSize fixed pool size (must be &gt; 0)
+     * @param poolSize fixed pool size (must be bigger than 0)
      */
     public ThreadPoolHistogramEqualizer(int poolSize) {
         if (poolSize <= 0) {

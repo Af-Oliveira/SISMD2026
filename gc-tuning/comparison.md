@@ -60,4 +60,4 @@ Across **all** sweep configurations (image size × implementation × thread coun
 - **Lowest cumulative GC pause time**: `g1` (16 ms)
 - **Lowest GC overhead ratio**: `g1` (0.38%)
 
-These three metrics *can* point at different collectors. The report (Issue #10) should justify the final pick by looking at the workload shape — short-lived `Color[][]` allocations, frequent young-generation pressure, modest live-set — and trade off mean throughput against tail-latency.
+

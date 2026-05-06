@@ -19,14 +19,16 @@ import java.util.Random;
 import java.util.Set;
 
 /**
- * mvn -q compile
+ * <p>mvn -q compile
  * 
- * java -XX:+UseSerialGC   -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\serial
- * java -XX:+UseParallelGC -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\parallel
- * java -XX:+UseG1GC       -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\g1
- * java -XX:+UseZGC        -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\zgc
+ * <ul>
+ *   <li>java -XX:+UseSerialGC   -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\serial</li>
+ *   <li>java -XX:+UseParallelGC -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\parallel</li>
+ *   <li>java -XX:+UseG1GC       -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\g1</li>
+ *   <li>java -XX:+UseZGC        -Xmx2g -cp target\classes pt.isep.sismd.histogram.BenchmarkRunner results\zgc</li>
+ * </ul>
  * 
- * Benchmarking harness for every {@link ImageProcessor} implementation
+ * <p>Benchmarking harness for every {@link ImageProcessor} implementation
  * (Issue #8 — PDF "Generation of Results").
  *
  * <p>Sweeps the cartesian product of:

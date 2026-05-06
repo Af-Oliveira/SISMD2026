@@ -1,0 +1,1 @@
+"src.jpg" | mvn -q exec:java

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
 
 /**
  * Histogram equalization composed as a {@link CompletableFuture} pipeline
- * (Issue #7 — PDF §5 "CompletableFutures-Based Solution").
+ * (Issue #7 — PDF section 5 "CompletableFutures-Based Solution").
  *
  * <h2>Async pipeline</h2>
  * <pre>

@@ -4,7 +4,7 @@ import java.awt.Color;
 
 /**
  * Histogram equalization using <strong>manually managed threads</strong>
- * (Issue #4 — PDF §2 "Multithreaded Solution (Without Thread Pools)").
+ * (Issue #4 — PDF Section 2 "Multithreaded Solution (Without Thread Pools)").
  *
  * <p>This implementation uses {@code new Thread(...)}, {@code start()} and
  * {@code join()} only — no {@link java.util.concurrent.ExecutorService},
@@ -47,7 +47,7 @@ public class ManualThreadHistogramEqualizer implements ImageProcessor {
     }
 
     /**
-     * @param numThreads number of worker threads (must be &gt; 0)
+     * @param numThreads number of worker threads (must be bigger than 0)
      */
     public ManualThreadHistogramEqualizer(int numThreads) {
         if (numThreads <= 0) {

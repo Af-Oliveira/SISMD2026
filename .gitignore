@@ -17,8 +17,9 @@ Thumbs.db
 results/*.csv
 gc-tuning/logs/
 
-# Processed images (keep inputs, ignore outputs)
+# Processed images
 output/
+
 
 # Python venv used by report/charts/generate_charts.py
 .venv/
