@@ -258,11 +258,6 @@ public class GcComparisonReport {
                 + ratioWinner.name() + "` ("
                 + String.format(Locale.ROOT, "%.2f%%", ratioWinner.gcRatioPercent()) + ")\n\n");
 
-        write(w, "These three metrics *can* point at different collectors. The "
-                + "report (Issue #10) should justify the final pick by looking at "
-                + "the workload shape — short-lived `Color[][]` allocations, frequent "
-                + "young-generation pressure, modest live-set — and trade off mean "
-                + "throughput against tail-latency.\n");
     }
 
     private static void write(BufferedWriter w, String s) {
