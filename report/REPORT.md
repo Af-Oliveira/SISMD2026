@@ -21,6 +21,7 @@
 5. [Performance analysis](#5-performance-analysis)
 6. [Discussion](#6-discussion-efficiency-scalability-overhead-bottlenecks)
 7. [Conclusions](#7-conclusions)
+8. [Code of Honor](#8-code-of-honor)
 
 ---
 
@@ -376,3 +377,10 @@ The secondary bottleneck is the **inherently sequential cumulative histogram**, 
 
 - **The best observed configuration is Fork/Join with 24 threads under G1**, achieving an average execution time of **5.96 ms per call**, corresponding to a **3.52× speedup** over the sequential baseline. This configuration represents the practical performance optimum under the constraints of the dataset, hardware, and memory model.
 
+## 8. Code of Honor
+
+In accordance with the Código de Boas Práticas de Conduta of ISEP (27 October 2020), the authors declare that this project was developed with academic integrity and in compliance with the institutional rules governing originality and ethical conduct in higher education.
+
+All source code, benchmark configurations, experimental analysis, and written documentation presented in this report were produced exclusively for the curricular unit (SISMD). Any external references, libraries, frameworks, or documentation used throughout the development process were consulted solely as supporting technical material and are appropriately acknowledged through repository dependencies, official documentation references, or standard Java API usage.
+
+The experimental results reported in this document correspond to real executions performed on the described hardware and software environment. No benchmark values, measurements, charts, or statistical observations were fabricated or artificially manipulated.
